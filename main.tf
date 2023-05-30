@@ -1,6 +1,6 @@
 terraform {
     backend "s3" {
-    bucket = "musibucket"
+    bucket = "musibkt1"
     key    = "key_terraform.tfstate"
     region = "ap-south-1"
   }
