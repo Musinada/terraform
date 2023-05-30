@@ -1,8 +1,8 @@
 terraform {
     backend "s3" {
-    bucket = "test-sanquest"
+    bucket = "musibucket"
     key    = "terraform_Iac.tfstate"
-    region = "us-east-1"
+    region = "ap-south-1"
   }
 }
 
