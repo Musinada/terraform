@@ -38,8 +38,8 @@ output "instance_ip_ubuntu_controller" {
   value       = aws_instance.controller_ubuntu.public_ip
 }
 
-resource "aws_security_group" "anilSG" {
-  name        = "anilSG"
+resource "aws_security_group" "anilSG1" {
+  name        = "anilSG1"
   description = "Allows all traffic"
   vpc_id      = var.vpc_id
   ingress {
@@ -55,17 +55,17 @@ resource "aws_security_group" "anilSG" {
     cidr_blocks = var.cidr_blocks
   }
   tags = {
-    Name = "anilSG"
+    Name = "anilSG1"
   }
 }
 
 
 output "securitygroup_id" {
-  value = aws_security_group.anilSG.id
+  value = aws_security_group.anilSG1.id
 }
 
 resource "aws_network_interface_sg_attachment" "controller_sg_attachment" {
-  security_group_id    = aws_security_group.anilSG.id
+  security_group_id    = aws_security_group.anilSG1.id
   network_interface_id = aws_instance.controller_ubuntu.primary_network_interface_id
 }
 
