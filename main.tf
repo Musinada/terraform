@@ -1,7 +1,7 @@
 terraform {
     backend "s3" {
     bucket = "musibucket"
-    key    = "terraform_Iac.tfstate"
+    key    = "key_terraform.tfstate"
     region = "ap-south-1"
   }
 }
@@ -21,31 +21,31 @@ provider "aws" {
 #  name = "k8s-cluster-sg"
 #}
 
-resource "aws_instance" "controller_linux" {
-  ami                         = var.linux_ami_id
-  instance_type               = "t2.large"
+resource "aws_instance" "controller_ubuntu" {
+  ami                         = var.ubuntu_ami_id
+  instance_type               = "t2.micro"
   associate_public_ip_address = true
   subnet_id = var.subnet
   key_name                    = "ssh-key"
   root_block_device {
     volume_type           = var.volume_type
-    volume_size           = 60
+    volume_size           = 
     delete_on_termination = true
     encrypted = true
   }
   tags = {
-    Name = "IaC-Infra"
+    Name = "terraform_ec2"
   }
 }
 
-output "instance_ip_linux_controller" {
+output "instance_ip_ubuntu_controller" {
   description = "The public ip for ssh access to linux controller"
-  value       = aws_instance.controller_linux.public_ip
+  value       = aws_instance.controller_ubuntu.public_ip
 }
 
-resource "aws_security_group" "devops-test1" {
-  name        = "devops-test1"
-  description = "Allow sall traffic"
+resource "aws_security_group" "anilSG" {
+  name        = "anilSG"
+  description = "Allows all traffic"
   vpc_id      = var.vpc_id
   ingress {
     from_port   = 0
@@ -60,17 +60,17 @@ resource "aws_security_group" "devops-test1" {
     cidr_blocks = var.cidr_blocks
   }
   tags = {
-    Name = "devops-test1"
+    Name = "anilSG"
   }
 }
 
 
 output "securitygroup_id" {
-  value = aws_security_group.devops-test1.id
+  value = aws_security_group.anilSG.id
 }
 
 resource "aws_network_interface_sg_attachment" "controller_sg_attachment" {
-  security_group_id    = aws_security_group.devops-test1.id
-  network_interface_id = aws_instance.controller_linux.primary_network_interface_id
+  security_group_id    = aws_security_group.anilSG.id
+  network_interface_id = aws_instance.controller_ubuntu.primary_network_interface_id
 }
 
