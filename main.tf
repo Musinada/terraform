@@ -1,6 +1,6 @@
 terraform {
     backend "s3" {
-    bucket = "musibkt1"
+    bucket = "musibkt2"
     key    = "key_terraform.tfstate"
     region = "ap-south-1"
   }
@@ -38,8 +38,8 @@ output "instance_ip_ubuntu_controller" {
   value       = aws_instance.controller_ubuntu.public_ip
 }
 
-resource "aws_security_group" "anilSG1" {
-  name        = "anilSG1"
+resource "aws_security_group" "manilSG1" {
+  name        = "manilSG1"
   description = "Allows all traffic"
   vpc_id      = var.vpc_id
   ingress {
@@ -55,7 +55,7 @@ resource "aws_security_group" "anilSG1" {
     cidr_blocks = var.cidr_blocks
   }
   tags = {
-    Name = "anilSG1"
+    Name = "manilSG1"
   }
 }
 
